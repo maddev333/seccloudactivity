@@ -42,15 +42,9 @@ function Get-AzureActivityLogs {
     Internal
     #>
     try {
-        # Connect using Managed Identity
-        Connect-AzAccount -Identity
-
-        # Define the time range for the activity logs
-        $StartTime = (Get-Date).AddDays(-30) # For example, last 30 days
-        $EndTime = Get-Date
 
         # Retrieve the activity logs
-        $ActivityLogs = Get-AzActivityLog -StartTime $StartTime -EndTime $EndTime
+        $ActivityLogs = Get-AzActivityLog -MaxRecord 30
 
         # Construct the output object
         $AzureActivityLogInfo = @{
