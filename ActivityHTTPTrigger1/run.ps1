@@ -68,15 +68,16 @@ function Get-AzureActivityLogs {
         return $AzureActivityLogInfo
     }
 }
-
+$subscriptionId = $env:SubId
+Write-Output "SubId: $subscriptionId"
 $envTenantId = $env:TenantId
 Write-Output "TenantId: $envTenantId"
 Write-Host "Connect AzAccount! TIME: $currentUTCtime"
-Connect-AzAccount -Identity -TenantId $envTenantId -Environment AzureUSGovernment
+Connect-AzAccount -Identity -TenantId $envTenantId -Subscription subscriptionId -Environment AzureUSGovernment
 
-$subscriptionId = $env:SubId
-Write-Output "SubId: $subscriptionId"
-Get-AzSubscription -SubscriptionId $subscriptionId | Select-AzSubscription
+#$subscriptionId = $env:SubId
+#Write-Output "SubId: $subscriptionId"
+#Get-AzSubscription -SubscriptionId $subscriptionId | Select-AzSubscription
 
 # Log the current context
 $currentContext = Get-AzContext
