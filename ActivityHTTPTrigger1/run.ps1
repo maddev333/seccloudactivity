@@ -75,8 +75,8 @@ Write-Host "Connect AzAccount! TIME: $currentUTCtime"
 Connect-AzAccount -Identity -TenantId $envTenantId -Environment AzureUSGovernment
 
 # Set the current subscription (replace with your actual subscription ID)
-$subscriptionId = $env:SubId
-Select-AzSubscription -SubscriptionId $subscriptionId
+#$subscriptionId = $env:SubId
+#Select-AzSubscription -SubscriptionId $subscriptionId
 
 # Log the current context
 $currentContext = Get-AzContext
