@@ -20,7 +20,7 @@ function Get-AzureActivityLogs {
     try {
 
         # Retrieve the activity logs
-        $ActivityLogs = Get-AzActivityLog -MaxRecord 1
+        $ActivityLogs = Get-AzActivityLog -MaxRecord 30
         # Construct the output object
         $AzureActivityLogInfo = @{
             "LogCount" = $ActivityLogs.Count
