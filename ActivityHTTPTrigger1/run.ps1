@@ -6,34 +6,10 @@ param($Request, $TriggerMetadata)
 # Write to the Azure Functions log stream.
 Write-Host "PowerShell HTTP trigger function processed a request."
 
-# Interact with query parameters or the body of the request.
-$name = $Request.Query.Name
-if (-not $name) {
-    $name = $Request.Body.Name
-}
-
-$body = "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response."
-
-if ($name) {
-    $body = "Hello, $name. This HTTP triggered function executed successfully."
-}
-
-# Associate values to output bindings by calling 'Push-OutputBinding'.
-#Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{
-#    StatusCode = [HttpStatusCode]::OK
-#    Body       = $body
-#})
-
-# Input bindings are passed in via param block.
-#param($Timer)
 
 # Get the current universal time in the default string format
 $currentUTCtime = (Get-Date).ToUniversalTime()
 
-# The 'IsPastDue' porperty is 'true' when the current function invocation is later than scheduled.
-#if ($Timer.IsPastDue) {
-#    Write-Host "PowerShell timer is running late!"
-#}
 function Get-AzureActivityLogs {
     <#
     .Description
@@ -44,7 +20,7 @@ function Get-AzureActivityLogs {
     try {
 
         # Retrieve the activity logs
-        $ActivityLogs = Get-AzActivityLog -MaxRecord 30
+        $ActivityLogs = Get-AzActivityLog -MaxRecord 1
         Write-Host $ActivityLogs
         # Construct the output object
         $AzureActivityLogInfo = @{
@@ -87,7 +63,6 @@ Write-Host "Current Subscription ID: $($currentContext.Subscription.Id)"
 # Fetch Azure Activity Logs
 Write-Host "Retrieving Azure Activity Logs... TIME: $currentUTCtime"
 $activity = Get-AzureActivityLogs
-
 
 Write-Host "Disonnect-AzAccount! TIME: $currentUTCtime"
 Disconnect-AzAccount
