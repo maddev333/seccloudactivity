@@ -73,7 +73,7 @@ Write-Output "SubId: $subscriptionId"
 $envTenantId = $env:TenantId
 Write-Output "TenantId: $envTenantId"
 Write-Host "Connect AzAccount! TIME: $currentUTCtime"
-Connect-AzAccount -Identity -TenantId $envTenantId -Subscription subscriptionId -Environment AzureUSGovernment
+Connect-AzAccount -Identity -TenantId $envTenantId -Subscription $subscriptionId -Environment AzureUSGovernment
 
 #$subscriptionId = $env:SubId
 #Write-Output "SubId: $subscriptionId"
