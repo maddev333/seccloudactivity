@@ -45,8 +45,21 @@ function Get-AzureActivityLogs {
 
         # Retrieve the activity logs
         $ActivityLogs = Get-AzActivityLog -MaxRecord 30
+        Write-Host $ActivityLogs
+        # Construct the output object
+        $AzureActivityLogInfo = @{
+            "LogCount" = $ActivityLogs.Count
+            "Logs" = @()  # Initialize as an empty array to avoid duplicate keys
+        }
 
-        return $ActivityLogs
+        # Populate the logs
+        foreach ($log in $ActivityLogs) {
+            $AzureActivityLogInfo["Logs"] += $log
+        }
+
+        # Convert to JSON format with increased depth
+        $AzureActivityLogInfoJson = ConvertTo-Json $AzureActivityLogInfo -Depth 10
+        return $AzureActivityLogInfoJson
     }
     catch {
         Write-Warning "Error retrieving Azure Activity Logs using Get-AzureActivityLogs: $($_)"
