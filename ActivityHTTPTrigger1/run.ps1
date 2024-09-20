@@ -73,10 +73,20 @@ $envTenantId = $env:TenantId
 Write-Output "TenantId: $envTenantId"
 Write-Host "Connect AzAccount! TIME: $currentUTCtime"
 Connect-AzAccount -Identity -TenantId $envTenantId -Environment AzureUSGovernment
-Write-Host "Connect MgGraph TIME: $currentUTCtime"
-Connect-MgGraph -Identity -Environment USGov
-Write-Host "Get-AzureActivityLogs! TIME: $currentUTCtime"
+
+# Set the current subscription (replace with your actual subscription ID)
+$subscriptionId = $env:SubId
+Select-AzSubscription -SubscriptionId $subscriptionId
+
+# Log the current context
+$currentContext = Get-AzContext
+Write-Host "Current Subscription ID: $($currentContext.Subscription.Id)"
+
+# Fetch Azure Activity Logs
+Write-Host "Retrieving Azure Activity Logs... TIME: $currentUTCtime"
 $activity = Get-AzureActivityLogs
+
+
 Write-Host "Disonnect-AzAccount! TIME: $currentUTCtime"
 Disconnect-AzAccount
 
