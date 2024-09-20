@@ -46,15 +46,7 @@ function Get-AzureActivityLogs {
         # Retrieve the activity logs
         $ActivityLogs = Get-AzActivityLog -MaxRecord 30
 
-        # Construct the output object
-        $AzureActivityLogInfo = @{
-            "LogCount" = $ActivityLogs.Count
-            "Logs" = $ActivityLogs
-        }
-
-        # Convert to JSON format
-        $AzureActivityLogInfo = ConvertTo-Json @($AzureActivityLogInfo) -Depth 4
-        return $AzureActivityLogInfo
+        return $ActivityLogs
     }
     catch {
         Write-Warning "Error retrieving Azure Activity Logs using Get-AzureActivityLogs: $($_)"
@@ -74,10 +66,6 @@ $envTenantId = $env:TenantId
 Write-Output "TenantId: $envTenantId"
 Write-Host "Connect AzAccount! TIME: $currentUTCtime"
 Connect-AzAccount -Identity -TenantId $envTenantId -Subscription $subscriptionId -Environment AzureUSGovernment
-
-#$subscriptionId = $env:SubId
-#Write-Output "SubId: $subscriptionId"
-#Get-AzSubscription -SubscriptionId $subscriptionId | Select-AzSubscription
 
 # Log the current context
 $currentContext = Get-AzContext
