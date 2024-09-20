@@ -21,16 +21,25 @@ function Get-AzureActivityLogs {
 
         # Retrieve the activity logs
         $ActivityLogs = Get-AzActivityLog -MaxRecord 1
-        Write-Host $ActivityLogs
         # Construct the output object
         $AzureActivityLogInfo = @{
             "LogCount" = $ActivityLogs.Count
-            "Logs" = @()  # Initialize as an empty array to avoid duplicate keys
+            "Logs" = @()  # Initialize as an empty array
         }
 
-        # Populate the logs
+        # Populate the logs while ensuring unique keys
         foreach ($log in $ActivityLogs) {
-            $AzureActivityLogInfo["Logs"] += $log
+            # Create a custom object to avoid key conflicts
+            $logEntry = [PSCustomObject]@{
+                "EventTime"      = $log.EventTime
+                "Authorization"  = $log.Authorization  # Ensure this does not conflict
+                "Caller"         = $log.Caller
+                "ResourceGroup"  = $log.ResourceGroup
+                "ResourceId"     = $log.ResourceId
+                # Add other relevant properties as needed
+            }
+            $AzureActivityLogInfo["Logs"] += $logEntry
+            Write-Host $logEntry
         }
 
         # Convert to JSON format with increased depth
